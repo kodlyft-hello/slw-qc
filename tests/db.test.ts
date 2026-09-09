@@ -20,6 +20,7 @@ import {
 	applyServerConfirmation,
 	confirm,
 	createFromInward,
+	formatLocalName,
 	loadChecklist,
 	saveRows,
 	setReturnPieces,
@@ -192,8 +193,64 @@ describe("master mirror", () => {
 		applyPullResult(db, pullFixture());
 		createFromInward(db, "IRH-1", "op");
 		const [option] = listOpenInwards(db);
-		expect(option!.local_checklist).toMatch(/^QCL-/);
+		expect(option!.local_checklist).toMatch(/^QC-\d{5}$/);
 		expect(option!.local_state).toBe("draft");
+	});
+});
+
+describe("local naming", () => {
+	beforeEach(() => applyPullResult(db, pullFixture()));
+
+	it("names checklists in a running sequence a person can read", () => {
+		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00001");
+		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00002");
+		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00003");
+	});
+
+	it("formats the sequence with a readable prefix and padding", () => {
+		expect(formatLocalName(1)).toBe("QC-00001");
+		expect(formatLocalName(42)).toBe("QC-00042");
+		expect(formatLocalName(99999)).toBe("QC-99999");
+		// Widens rather than truncating, so the name stays unique past five digits.
+		expect(formatLocalName(100000)).toBe("QC-100000");
+	});
+
+	it("never reuses a name after a checklist is deleted", () => {
+		const first = createFromInward(db, "IRH-1", "op");
+		sql(db, "DELETE FROM qc_check_lists WHERE local_name = ?").run(first.local_name);
+		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00002");
+	});
+
+	it("rebuilds the counter from existing documents if it is lost", () => {
+		createFromInward(db, "IRH-1", "op");
+		createFromInward(db, "IRH-1", "op");
+
+		// What a cleared meta table looks like. Restarting at 1 here would collide with
+		// QC-00001 and fail the insert.
+		sql(db, "DELETE FROM meta WHERE key = 'local_series'").run();
+
+		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00003");
+	});
+
+	it("keeps the sync key separate from the readable name", () => {
+		const list = createFromInward(db, "IRH-1", "op");
+		// The name repeats across stations by design; the uuid is what must not.
+		expect(list.local_name).toBe("QC-00001");
+		expect(list.offline_uuid).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+		expect(list.offline_uuid).not.toContain(list.local_name);
+	});
+
+	it("does not send the local name to the server", () => {
+		// It is a per-station label and would be ambiguous on the server.
+		const list = createFromInward(db, "IRH-1", "op");
+		const indexes = loadMasterIndexes(db);
+		saveRows(db, list.local_name, list.rows.map((row) => ({ id: row.id, feetage: 12, grade: "A" })), indexes);
+		confirm(db, list.local_name);
+
+		const [queued] = dueForPush(db);
+		const payload = JSON.parse(queued!.payload_json) as Record<string, unknown>;
+		expect(payload).not.toHaveProperty("local_name");
+		expect(payload.offline_uuid).toBe(list.offline_uuid);
 	});
 });
 

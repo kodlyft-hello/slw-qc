@@ -53,16 +53,58 @@ export interface Checklist {
 	measurers: string[];
 }
 
-/** Local series, distinct from the server's QCCL- so the two are never confused. */
+// The name a person uses: "QC-00001". It is what the operator reads on screen, quotes
+// down the phone and writes on a docket, so it is a plain running number.
+//
+// It is deliberately NOT the sync key. `offline_uuid` is, because this counter restarts
+// at 1 on every station: two stations would both produce QC-00001 for different work,
+// and the server's unique index would treat the second one as a duplicate of the first
+// and silently discard a shift's measurements. A readable name and a globally unique
+// key are two different jobs, and one value cannot do both.
+//
+// `local_name` never leaves this machine - it is absent from the push payload - so it is
+// free to be short and repeatable across stations.
+const LOCAL_SERIES_PREFIX = "QC-";
+const LOCAL_SERIES_DIGITS = 5;
+
+export function formatLocalName(sequence: number): string {
+	// padStart only pads, so passing 100000 widens the name rather than truncating it.
+	return `${LOCAL_SERIES_PREFIX}${String(sequence).padStart(LOCAL_SERIES_DIGITS, "0")}`;
+}
+
+/**
+ * Highest sequence already used, read from the documents themselves.
+ *
+ * Only consulted when the counter is missing. Restarting at 1 in that case would collide
+ * with a name that already exists and fail the insert, so the documents are treated as
+ * the fallback source of truth. Trailing digits are parsed rather than the prefix
+ * matched, so a name written under an older prefix still counts.
+ */
+function highestExistingSequence(db: Db): number {
+	const rows = sql(db, "SELECT local_name FROM qc_check_lists").all() as { local_name: string }[];
+
+	let highest = 0;
+	for (const row of rows) {
+		const digits = /(\d+)\s*$/.exec(row.local_name);
+		if (digits) highest = Math.max(highest, Number.parseInt(digits[1]!, 10));
+	}
+	return highest;
+}
+
 function nextLocalName(db: Db): string {
-	const row = sql(db, "SELECT value FROM meta WHERE key = 'local_series'").get() as
+	const stored = sql(db, "SELECT value FROM meta WHERE key = 'local_series'").get() as
 		| { value: string }
 		| undefined;
-	const next = Number.parseInt(row?.value ?? "0", 10) + 1;
-	sql(db,
+
+	const current = stored ? Number.parseInt(stored.value, 10) || 0 : highestExistingSequence(db);
+	const next = current + 1;
+
+	sql(
+		db,
 		"INSERT INTO meta (key, value) VALUES ('local_series', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value"
 	).run(String(next));
-	return `QCL-${String(next).padStart(6, "0")}`;
+
+	return formatLocalName(next);
 }
 
 /**

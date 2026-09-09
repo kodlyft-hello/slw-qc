@@ -45,9 +45,22 @@ The push payload is deliberately thin: only `item_code`, `skin_type`, `grade`, `
 `grand_total` and the whole summary server-side, so the station cannot corrupt pricing and
 ERPNext stays the only authority on money.
 
-`offline_uuid` makes the push idempotent. A timeout that arrives *after* the server
-committed is indistinguishable from one that arrives before, so without a client-generated
-key every retry risks a duplicate checklist against the same GRN.
+### Two identifiers, two jobs
+
+| | Example | Who sees it | Purpose |
+|---|---|---|---|
+| `local_name` | `QC-00001` | the operator | The readable name on screen and down the phone. A plain running number, restarting at 1 on every station. Never sent to the server. |
+| `offline_uuid` | `d593696b-…` | nobody | The push dedupe key. Never displayed. |
+| `erp_name` | `QCCL-2026-00001` | the operator, after sync | Assigned by ERPNext on submit. |
+
+These cannot be collapsed into one value. `offline_uuid` makes the push idempotent: a
+timeout that arrives *after* the server committed is indistinguishable from one that
+arrives before, so without a client-generated key every retry risks a duplicate checklist
+against the same GRN. `local_name` cannot do that job, because two stations both produce
+`QC-00001` for different work — the server's unique index would treat the second as a
+duplicate of the first and silently discard a shift's measurements.
+
+Equally, a UUID cannot be the name: nobody reads one out over a factory PA.
 
 ## Server side
 
@@ -78,7 +91,7 @@ which is why Electron is pinned to a release that bundles Node 22.
 ## Tests
 
 ```bash
-npm test               # 373 offline tests
+npm test               # 386 offline tests
 npm run test:e2e       # opt-in, needs a running bench (see below)
 ```
 
