@@ -19,6 +19,7 @@
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
+import { gradeOptions, matchGrade } from "../composables/grades";
 import { nextPosition, type GridPosition } from "../composables/gridNavigation";
 import { computeWindow, scrollToRow } from "../composables/virtualRows";
 import type { DetailRow } from "../../../electron/preload";
@@ -33,7 +34,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	(event: "commit", payload: { id: number; field: "grade" | "feetage" | "status"; value: string }): void;
-	(event: "fill-down", payload: { fromIndex: number; field: "grade"; value: string }): void;
+	(event: "reject", message: string): void;
 }>();
 
 const ROW_HEIGHT = 34;
@@ -44,6 +45,35 @@ const viewportHeight = ref(600);
 const active = ref<GridPosition>({ row: 0, column: "feetage" });
 /** The raw string being typed. Committed on blur, Enter or navigation. */
 const editing = ref<{ id: number; field: string; text: string } | null>(null);
+
+/**
+ * The open grade list.
+ *
+ * Positioned in viewport coordinates rather than inside the cell: the row body scrolls,
+ * so a list drawn inside it would be clipped by the viewport on the last visible row -
+ * which is exactly where an operator working down a stack tends to be.
+ */
+const picker = ref<{
+	id: number;
+	options: string[];
+	highlight: number;
+	/** True once the operator has typed or arrowed. Until then Enter still means "next row". */
+	touched: boolean;
+	left: number;
+	top: number;
+	width: number;
+} | null>(null);
+
+const pickerList = ref<HTMLElement | null>(null);
+
+/**
+ * Set while the grid scrolls itself to reveal a cell it is moving to.
+ *
+ * Scroll events are delivered a beat late, so a keyboard move that scrolls would arrive
+ * after the destination cell had already opened its list and close it again. A scroll the
+ * operator performed still closes it.
+ */
+let selfScroll = false;
 
 const columns = computed(() => (props.readonly ? [] : ["grade", "feetage"]));
 
@@ -67,6 +97,15 @@ const measured = computed(() => props.rows.filter((row) => Number(row.feetage) >
 
 function onScroll(event: Event): void {
 	scrollTop.value = (event.target as HTMLElement).scrollTop;
+
+	if (selfScroll) {
+		selfScroll = false;
+		return;
+	}
+
+	// The list is positioned against the cell as it was; once the cell moves, so has the
+	// list, and a dropdown floating over the wrong row is worse than no dropdown.
+	closePicker();
 }
 
 function cellValue(row: DetailRow, field: string): string {
@@ -86,15 +125,42 @@ function beginEdit(row: DetailRow, field: string, initial?: string): void {
 function commit(): void {
 	const pending = editing.value;
 	editing.value = null;
+	closePicker();
 	if (!pending) return;
 
 	const row = props.rows.find((candidate) => candidate.id === pending.id);
 	if (!row) return;
 
-	const current = pending.field === "feetage" ? (row.feetage ? String(row.feetage) : "") : (row.grade ?? "");
+	if (pending.field === "grade") {
+		const typed = pending.text.trim();
+		const grade = matchGrade(props.grades, typed);
+
+		// Rule 2 covers measurements: a feetage is the operator's reading and is kept
+		// whatever it says. A grade is not a reading, it is a master value - one that is
+		// not on the list prices nothing, groups into its own summary line and is refused
+		// by ERPNext on submit. Refusing it here, out loud, beats discovering it at the
+		// end of the shift. Clearing the cell stays allowed.
+		if (typed && !grade) {
+			emit(
+				"reject",
+				props.grades.length
+					? `"${typed}" is not a grade. Pick one from the list.`
+					: "No grades have synced from ERPNext yet, so a grade cannot be set."
+			);
+			return;
+		}
+
+		const value = grade ?? "";
+		if (value === (row.grade ?? "")) return;
+
+		emit("commit", { id: pending.id, field: "grade", value });
+		return;
+	}
+
+	const current = row.feetage ? String(row.feetage) : "";
 	if (pending.text === current) return;
 
-	emit("commit", { id: pending.id, field: pending.field as "grade" | "feetage", value: pending.text });
+	emit("commit", { id: pending.id, field: "feetage", value: pending.text });
 }
 
 async function focusCell(position: GridPosition): Promise<void> {
@@ -105,7 +171,10 @@ async function focusCell(position: GridPosition): Promise<void> {
 		viewportHeight: viewportHeight.value,
 		rowHeight: ROW_HEIGHT,
 	});
-	if (offset !== null && viewport.value) viewport.value.scrollTop = offset;
+	if (offset !== null && viewport.value && viewport.value.scrollTop !== offset) {
+		selfScroll = true;
+		viewport.value.scrollTop = offset;
+	}
 
 	await nextTick();
 	const selector = `[data-row="${position.row}"] [data-cell="${position.column}"] input`;
@@ -137,14 +206,115 @@ function onFocus(rowIndex: number, column: string, row: DetailRow): void {
 	beginEdit(row, column);
 }
 
+// --- grade: a picker over the Grade master, not a free text box ---
+
+function openPicker(row: DetailRow, input: HTMLInputElement, text: string, touched = false): void {
+	const options = gradeOptions(props.grades, text);
+	const exact = matchGrade(props.grades, text);
+	const box = input.getBoundingClientRect();
+
+	picker.value = {
+		id: row.id,
+		options,
+		highlight: exact ? Math.max(0, options.indexOf(exact)) : 0,
+		touched,
+		left: box.left,
+		top: box.bottom + 2,
+		width: Math.max(box.width, 140),
+	};
+}
+
+function closePicker(): void {
+	picker.value = null;
+}
+
+function pickerOpenFor(row: DetailRow): boolean {
+	return !!picker.value && picker.value.id === row.id;
+}
+
+/** Move the highlight and keep it in view; the list scrolls once the grades outgrow it. */
+async function moveHighlight(step: number): Promise<void> {
+	const open = picker.value;
+	if (!open || !open.options.length) return;
+
+	open.highlight = (open.highlight + step + open.options.length) % open.options.length;
+	open.touched = true;
+
+	await nextTick();
+	const item = pickerList.value?.children[open.highlight] as HTMLElement | undefined;
+	item?.scrollIntoView({ block: "nearest" });
+}
+
+/** Put a grade in the cell without committing it, so Enter and Tab can decide what next. */
+function choose(row: DetailRow, value: string): void {
+	editing.value = { id: row.id, field: "grade", text: value };
+	closePicker();
+}
+
+function onGradeFocus(event: FocusEvent, rowIndex: number, row: DetailRow): void {
+	onFocus(rowIndex, "grade", row);
+	openPicker(row, event.target as HTMLInputElement, cellValue(row, "grade"));
+}
+
+function onGradeInput(event: Event, row: DetailRow): void {
+	const input = event.target as HTMLInputElement;
+	editing.value = { id: row.id, field: "grade", text: input.value };
+	openPicker(row, input, input.value, true);
+}
+
+function onGradePick(value: string): void {
+	const row = props.rows.find((candidate) => candidate.id === picker.value?.id);
+	if (!row) return;
+	choose(row, value);
+	commit();
+}
+
 /**
- * Fill a grade down every row below, matching the desk form so muscle memory carries
- * over. Unlike the desk form it is announced and undoable, because silently rewriting
- * hundreds of rows is not something to do without telling anyone.
+ * Keys the open list claims, before the grid sees them.
+ *
+ * Up and Down walk the suggestions while it is open and rows once it is closed, which is
+ * how a Link field behaves inside a Frappe grid; Escape closes it and hands navigation
+ * straight back. Enter takes the highlighted grade and stays put - a second Enter then
+ * moves down - so picking a grade and leaving the row are two deliberate keystrokes
+ * rather than one that does both.
  */
-function fillDown(rowIndex: number, value: string): void {
-	if (!value) return;
-	emit("fill-down", { fromIndex: rowIndex, field: "grade", value });
+function onGradeKeydown(event: KeyboardEvent, rowIndex: number, row: DetailRow): void {
+	const open = picker.value && picker.value.id === row.id ? picker.value : null;
+
+	if (open) {
+		if (event.key === "Escape") {
+			event.preventDefault();
+			closePicker();
+			return;
+		}
+
+		if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+			event.preventDefault();
+			void moveHighlight(event.key === "ArrowDown" ? 1 : -1);
+			return;
+		}
+
+		// `touched` is what keeps the list from answering a question nobody asked. It opens
+		// on focus, so without this an operator pressing Enter to move down a column would
+		// take whatever grade happened to be highlighted - and, since a grade fills down,
+		// hand it to every row beneath as well.
+		if (open.touched && (event.key === "Enter" || event.key === "Tab")) {
+			const choice = open.options[open.highlight];
+			if (choice) choose(row, choice);
+			else closePicker();
+
+			// Enter settles the cell and stays; a second Enter moves down. Tab falls through
+			// so the grid carries it on to the feetage box, which is where the operator is
+			// going next anyway.
+			if (event.key === "Enter") {
+				event.preventDefault();
+				commit();
+				return;
+			}
+		}
+	}
+
+	onKeydown(event, rowIndex, "grade");
 }
 
 // The window size depends on how tall the viewport actually is, so measure it rather
@@ -207,14 +377,15 @@ defineExpose({ focusCell });
 					<input
 						:value="cellValue(entry.row, 'grade')"
 						:disabled="readonly"
-						list="grade-options"
+						role="combobox"
+						aria-autocomplete="list"
+						:aria-expanded="pickerOpenFor(entry.row)"
 						spellcheck="false"
 						autocomplete="off"
-						@focus="onFocus(entry.index, 'grade', entry.row)"
-						@input="editing = { id: entry.row.id, field: 'grade', text: ($event.target as HTMLInputElement).value }"
+						@focus="onGradeFocus($event, entry.index, entry.row)"
+						@input="onGradeInput($event, entry.row)"
 						@blur="commit"
-						@keydown="onKeydown($event, entry.index, 'grade')"
-						@keydown.ctrl.d.prevent="fillDown(entry.index, cellValue(entry.row, 'grade'))"
+						@keydown="onGradeKeydown($event, entry.index, entry.row)"
 					/>
 				</span>
 
@@ -248,13 +419,31 @@ defineExpose({ focusCell });
 			<div :style="{ height: `${window_.paddingBottom}px` }" />
 		</div>
 
-		<datalist id="grade-options">
-			<option v-for="grade in grades" :key="grade" :value="grade" />
-		</datalist>
+		<!--
+			mousedown, not click, and prevented: the grade input must not lose focus to the
+			list, or the blur would commit and close it before the click ever landed.
+		-->
+		<ul
+			v-if="picker"
+			ref="pickerList"
+			class="picker"
+			:style="{ left: `${picker.left}px`, top: `${picker.top}px`, width: `${picker.width}px` }"
+		>
+			<li
+				v-for="(option, index) in picker.options"
+				:key="option"
+				class="picker__item"
+				:class="{ 'picker__item--on': index === picker.highlight }"
+				@mousedown.prevent="onGradePick(option)"
+			>
+				{{ option }}
+			</li>
+			<li v-if="!picker.options.length" class="picker__item picker__item--empty">No matching grade</li>
+		</ul>
 
 		<footer class="grid__foot">
 			<span>{{ measured }} of {{ rows.length }} measured</span>
-			<span class="hint">Enter or Down moves to the next hide. Ctrl+D fills the grade down.</span>
+			<span class="hint">Enter or Down moves to the next hide. A grade fills every row below it.</span>
 		</footer>
 	</div>
 </template>
@@ -345,6 +534,59 @@ defineExpose({ focusCell });
 	outline: none;
 	border-color: var(--accent);
 	background: var(--surface);
+}
+
+/* The grade cell reads as a picker rather than a text box, and says so before it is
+   clicked: an operator who types a grade nobody has defined gets it refused. */
+.col--grade {
+	position: relative;
+}
+
+.col--grade::after {
+	content: "\25be";
+	position: absolute;
+	right: 0.35rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--muted);
+	font-size: 0.7rem;
+	pointer-events: none;
+}
+
+.col--grade input {
+	padding-right: 1rem;
+}
+
+/* Viewport coordinates, so the row body cannot clip the list on the last visible row. */
+.picker {
+	position: fixed;
+	z-index: 20;
+	margin: 0;
+	padding: 0.15rem;
+	max-height: 12rem;
+	overflow-y: auto;
+	list-style: none;
+	border: 1px solid var(--line);
+	border-radius: 5px;
+	background: var(--surface);
+	box-shadow: 0 6px 18px rgb(0 0 0 / 35%);
+}
+
+.picker__item {
+	padding: 0.25rem 0.5rem;
+	border-radius: 3px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.picker__item--on {
+	background: var(--accent);
+	color: var(--surface);
+}
+
+.picker__item--empty {
+	color: var(--muted);
+	cursor: default;
 }
 
 /* Marked, never rewritten. */

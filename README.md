@@ -13,7 +13,7 @@ in `qc_check_list.js` compound:
 |---|---|---|
 | 1 | Each feetage commit fires a debounced size lookup, which chains into a rate lookup | Two network round trips per hide |
 | 2 | The summary is cleared and rebuilt row by row on every burst | Whole-table repaint while typing |
-| 3 | Entering a grade rewrites every row below and refreshes the grid | Whole-grid repaint |
+| 3 | Entering a grade rewrites every row below, one `set_value` at a time, and refreshes the grid | Whole-grid repaint, silently, with no way back |
 | 4 | A feetage under 5 is **reset to 0** and throws a modal | The `1` on the way to `12` erases the measurement |
 | 5 | The error path re-focuses a cell 300 ms later | Keystrokes land in the wrong cell |
 | 6 | 400 hides become 400 rows paginated at 50 | Page jumps lose the operator's place |
@@ -22,6 +22,13 @@ The station removes all six. Masters are mirrored into SQLite, so size and rate 
 from an in-memory index rather than the network; the grid renders only the visible rows;
 and **a value the operator typed is never rewritten** — an out-of-range feetage is marked
 in red and reported at confirm time.
+
+Point 3 is a cost, not a mistake: hides are graded in runs, so a grade carrying down to
+every row below it is the behaviour that makes the desk form usable at all, and the
+station keeps it. What it drops is the price — the whole fill lands in one transaction and
+repaints only the rows on screen — and it says how many rows it touched and offers an undo.
+Grade itself is picked from the synced Grade master, the way a Link field works on the
+desk, so a typo cannot reach ERPNext and fail on submit.
 
 ## How it fits together
 

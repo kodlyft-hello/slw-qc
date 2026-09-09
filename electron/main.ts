@@ -4,7 +4,7 @@
  */
 import path from "node:path";
 
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, Menu } from "electron";
 
 import schemaSql from "./db/schema.sql?raw";
 import { closeDatabase, openDatabase, type Db } from "./db/connection";
@@ -100,8 +100,36 @@ function signOut(): void {
 	clearConfig(configPath());
 }
 
+/**
+ * Keys a measuring station has no use for.
+ *
+ * Dropping the application menu takes its accelerators with it - Toggle Developer Tools
+ * and Reload are menu items - but F12 and the reload keys are handled below the menu, so
+ * they have to be swallowed by hand. An operator who lands in the developer tools
+ * mid-shift has no idea what happened and no way back, and a reload throws away the row
+ * they were on.
+ */
+function isBlockedShortcut(input: Electron.Input): boolean {
+	if (input.type !== "keyDown") return false;
+
+	const key = input.key.toUpperCase();
+	const modified = input.control || input.meta;
+
+	// Developer tools: F12, and the Inspect / Console / Element-picker trio.
+	if (key === "F12") return true;
+	if (modified && input.shift && (key === "I" || key === "J" || key === "C")) return true;
+
+	// Reload. There is nothing to reload to: the renderer is the only page there is.
+	if (key === "F5") return true;
+	if (modified && key === "R") return true;
+
+	return false;
+}
+
 function createWindow(): void {
 	window = new BrowserWindow({
+		// Not the opening size - the window is maximised below. This is what it restores
+		// down to if the operator ever un-maximises it.
 		width: 1400,
 		height: 900,
 		show: false,
@@ -109,16 +137,33 @@ function createWindow(): void {
 		// Taskbar and window icon. The .exe icon comes from electron-builder; this is what
 		// the running app shows, including in development.
 		icon: path.join(__dirname, "../build/icon.png"),
+		// Belt and braces with the null application menu below: nothing to show, and
+		// nothing that Alt can summon back.
+		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
 			contextIsolation: true,
 			nodeIntegration: false,
 			sandbox: true,
 			spellcheck: false,
+			// Swallowing the shortcuts is what the operator sees; this is what makes it
+			// true. Development keeps the tools, so the block below behaves identically in
+			// both builds and cannot surprise anyone at release.
+			devTools: !app.isPackaged,
 		},
 	});
 
-	window.once("ready-to-show", () => window?.show());
+	window.webContents.on("before-input-event", (event, input) => {
+		if (isBlockedShortcut(input)) event.preventDefault();
+	});
+
+	// Maximised, every time. The grid is the screen, and a column of 2,000 rows on a
+	// half-height window costs the operator scrolling all shift. Maximising before the
+	// first paint means it opens maximised rather than opening small and snapping.
+	window.once("ready-to-show", () => {
+		window?.maximize();
+		window?.show();
+	});
 
 	const devServer = process.env.VITE_DEV_SERVER_URL;
 	if (devServer) void window.loadURL(devServer);
@@ -130,6 +175,12 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
+	// No menu bar. Every entry on the default one - reload, zoom, developer tools - is a
+	// way to break a shift, and none of them is a feature of this application.
+	// macOS is left alone: there Cut/Copy/Paste are menu roles, so removing the menu
+	// would leave an operator unable to paste into a field.
+	if (process.platform !== "darwin") Menu.setApplicationMenu(null);
+
 	db = openDatabase(databasePath(), schemaSql);
 
 	// A station that was signed in stays signed in across restarts: the key pair is in

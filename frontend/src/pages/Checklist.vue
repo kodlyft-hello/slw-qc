@@ -10,6 +10,7 @@
 import { computed, onMounted, ref } from "vue";
 
 import QcGrid from "../components/QcGrid.vue";
+import { fillDownTargets } from "../composables/grades";
 import { useSession } from "../stores/session";
 import type { Checklist, RowProblem, SummaryRow } from "../../../electron/preload";
 
@@ -58,27 +59,46 @@ function onCommit(payload: { id: number; field: string; value: string }): void {
 		const parsed = Number.parseFloat(payload.value.replace(/,/g, "").trim());
 		void apply([{ id: payload.id, feetage: Number.isFinite(parsed) ? parsed : 0 }]);
 	} else if (payload.field === "grade") {
-		void apply([{ id: payload.id, grade: payload.value || null }]);
+		void setGrade(payload.id, payload.value || null);
 	}
 }
 
+/** The grid refused a grade that is not on the master. Say so where the operator looks. */
+function onReject(message: string): void {
+	error.value = message;
+}
+
 /**
- * Fill a grade down, matching the desk form's behaviour so the habit carries over, but
- * announced and reversible rather than silent and permanent.
+ * Set a grade and carry it down every row below, as the desk form does.
+ *
+ * Hides are graded in runs, so the operator picks A once and changes it only where the
+ * run changes; making them choose on all 2,000 rows is the thing this replaces. Clearing
+ * a grade fills nothing down - the desk form stops there too, and spreading a blank over
+ * work already graded is nobody's intent.
+ *
+ * Both halves go in one call, so the rows repaint once rather than twice. Unlike the desk
+ * form it is announced and reversible: rewriting hundreds of rows on a mis-pick is how an
+ * afternoon disappears.
  */
-async function onFillDown(payload: { fromIndex: number; value: string }): Promise<void> {
+async function setGrade(id: number, grade: string | null): Promise<void> {
 	if (!doc.value) return;
 
-	const below = doc.value.rows.slice(payload.fromIndex + 1).filter((row) => row.grade !== payload.value);
-	if (!below.length) return;
+	const index = doc.value.rows.findIndex((row) => row.id === id);
+	if (index === -1) return;
 
-	undo.value = {
-		label: `Grade ${payload.value} applied to ${below.length} row(s) below`,
-		patches: below.map((row) => ({ id: row.id, grade: row.grade })),
-	};
-	notice.value = undo.value.label;
+	const below = fillDownTargets(doc.value.rows, index, grade);
 
-	await apply(below.map((row) => ({ id: row.id, grade: payload.value })));
+	// The undo restores only the rows below. The one the operator picked on was their own
+	// decision and putting it back would be undoing something they did not ask about.
+	undo.value = below.length
+		? {
+				label: `Grade ${grade} applied to ${below.length} row(s) below`,
+				patches: below.map((row) => ({ id: row.id, grade: row.grade })),
+			}
+		: null;
+	notice.value = undo.value?.label ?? null;
+
+	await apply([{ id, grade }, ...below.map((row) => ({ id: row.id, grade }))]);
 }
 
 async function undoFillDown(): Promise<void> {
@@ -184,7 +204,7 @@ onMounted(load);
 				:readonly="readonly"
 				:problem-rows="problemRows"
 				@commit="onCommit"
-				@fill-down="onFillDown"
+				@reject="onReject"
 			/>
 
 			<aside class="side">
