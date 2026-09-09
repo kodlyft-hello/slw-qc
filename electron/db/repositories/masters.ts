@@ -219,6 +219,7 @@ export interface InwardOption {
 	name: string;
 	vendor: string | null;
 	vendor_name: string | null;
+	reference_no: string | null;
 	date: string | null;
 	status: string | null;
 	total_qty: number;
@@ -235,7 +236,7 @@ export interface InwardOption {
  */
 export function listOpenInwards(db: Db): InwardOption[] {
 	return sql(db,
-			`SELECT irh.name, irh.vendor, irh.vendor_name, irh.date, irh.status, irh.total_qty,
+			`SELECT irh.name, irh.vendor, irh.vendor_name, irh.reference_no, irh.date, irh.status, irh.total_qty,
 			        qc.local_name AS local_checklist, qc.state AS local_state
 			   FROM inward_raw_hides irh
 			   LEFT JOIN qc_check_lists qc ON qc.inward_no = irh.name AND qc.state != 'failed'

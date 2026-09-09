@@ -116,9 +116,31 @@ function nextLocalName(db: Db): string {
  */
 export function createFromInward(db: Db, inwardNo: string, createdBy: string): Checklist {
 	const inward = sql(db, "SELECT * FROM inward_raw_hides WHERE name = ?").get(inwardNo) as
-		| { name: string; vendor: string; vendor_name: string; date: string }
+		| { name: string; vendor: string; vendor_name: string; date: string; status: string | null }
 		| undefined;
 	if (!inward) throw new Error(`Inward Raw Hide ${inwardNo} is not in the local mirror. Pull first.`);
+
+	// One checklist per GRN. Exploding a second one is not a harmless duplicate: both would
+	// carry their own offline_uuid, both would submit, and the GRN would be measured twice
+	// and paid for twice. A failed one is fair game - it never reached ERPNext.
+	const existing = sql(
+		db,
+		"SELECT local_name, state FROM qc_check_lists WHERE inward_no = ? AND state != 'failed' LIMIT 1"
+	).get(inwardNo) as { local_name: string; state: ChecklistState } | undefined;
+
+	if (existing) {
+		throw new Error(
+			existing.state === "draft"
+				? `${inwardNo} already has an open checklist, ${existing.local_name}. Open that one instead of starting again.`
+				: `${inwardNo} was already measured on ${existing.local_name} (${existing.state}).`
+		);
+	}
+
+	// The server closes a GRN when its checklist is submitted, so a Complete one is work
+	// somebody has already finished - possibly on another station.
+	if (inward.status === "Complete") {
+		throw new Error(`${inwardNo} is already marked Complete in ERPNext and cannot be measured again.`);
+	}
 
 	const details = sql(db, "SELECT * FROM inward_raw_hide_details WHERE parent = ? ORDER BY idx")
 		.all(inwardNo) as { item_code: string; item_name: string; skin_type: string; no_pieces: number }[];

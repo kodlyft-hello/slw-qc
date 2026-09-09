@@ -201,10 +201,25 @@ describe("master mirror", () => {
 describe("local naming", () => {
 	beforeEach(() => applyPullResult(db, pullFixture()));
 
+	/** A GRN of its own, because one checklist per GRN is now enforced. */
+	function extraGrn(name: string): string {
+		sql(
+			db,
+			`INSERT INTO inward_raw_hides (name, vendor, vendor_name, date, status, reference_no, total_qty)
+			 VALUES (?, 'V1', 'Vendor One', '2026-09-01', 'Pending', ?, 1)`
+		).run(name, name);
+		sql(
+			db,
+			`INSERT INTO inward_raw_hide_details (name, parent, idx, item_code, item_name, skin_type, grade, no_pieces)
+			 VALUES (?, ?, 1, 'RAW-COW', 'Raw Cow', 'Cow', 'A', 1)`
+		).run(`${name}-D1`, name);
+		return name;
+	}
+
 	it("names checklists in a running sequence a person can read", () => {
 		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00001");
-		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00002");
-		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00003");
+		expect(createFromInward(db, extraGrn("IRH-A"), "op").local_name).toBe("QC-00002");
+		expect(createFromInward(db, extraGrn("IRH-B"), "op").local_name).toBe("QC-00003");
 	});
 
 	it("formats the sequence with a readable prefix and padding", () => {
@@ -223,13 +238,13 @@ describe("local naming", () => {
 
 	it("rebuilds the counter from existing documents if it is lost", () => {
 		createFromInward(db, "IRH-1", "op");
-		createFromInward(db, "IRH-1", "op");
+		createFromInward(db, extraGrn("IRH-A"), "op");
 
 		// What a cleared meta table looks like. Restarting at 1 here would collide with
 		// QC-00001 and fail the insert.
 		sql(db, "DELETE FROM meta WHERE key = 'local_series'").run();
 
-		expect(createFromInward(db, "IRH-1", "op").local_name).toBe("QC-00003");
+		expect(createFromInward(db, extraGrn("IRH-B"), "op").local_name).toBe("QC-00003");
 	});
 
 	it("keeps the sync key separate from the readable name", () => {
@@ -337,6 +352,43 @@ describe("checklist drafting", () => {
 	it("refuses to trim more rows than exist", () => {
 		const list = createFromInward(db, "IRH-1", "op");
 		expect(() => setReturnPieces(db, list.local_name, 99)).toThrow(/greater than available rows/);
+	});
+});
+
+describe("one checklist per GRN", () => {
+	beforeEach(() => applyPullResult(db, pullFixture()));
+
+	it("refuses a second checklist for a GRN already being measured", () => {
+		const first = createFromInward(db, "IRH-1", "op");
+		// Two checklists would each carry their own offline_uuid, each submit, and the GRN
+		// would be measured and paid for twice.
+		expect(() => createFromInward(db, "IRH-1", "op")).toThrow(
+			new RegExp(`already has an open checklist, ${first.local_name}`)
+		);
+	});
+
+	it("refuses one for a GRN already confirmed", () => {
+		const first = createFromInward(db, "IRH-1", "op");
+		sql(db, "UPDATE qc_check_lists SET state = 'confirmed' WHERE local_name = ?").run(first.local_name);
+		expect(() => createFromInward(db, "IRH-1", "op")).toThrow(/was already measured/);
+	});
+
+	it("allows a retry after a failed one, which never reached ERPNext", () => {
+		const first = createFromInward(db, "IRH-1", "op");
+		sql(db, "UPDATE qc_check_lists SET state = 'failed' WHERE local_name = ?").run(first.local_name);
+		expect(() => createFromInward(db, "IRH-1", "op")).not.toThrow();
+	});
+
+	it("refuses a GRN another station has already completed", () => {
+		sql(db, "UPDATE inward_raw_hides SET status = 'Complete' WHERE name = 'IRH-1'").run();
+		expect(() => createFromInward(db, "IRH-1", "op")).toThrow(/already marked Complete/);
+	});
+
+	it("leaves no half-created checklist behind when it refuses", () => {
+		createFromInward(db, "IRH-1", "op");
+		expect(() => createFromInward(db, "IRH-1", "op")).toThrow();
+		const count = sql(db, "SELECT COUNT(*) AS n FROM qc_check_lists").get() as { n: number };
+		expect(count.n).toBe(1);
 	});
 });
 

@@ -78,9 +78,19 @@ Lives in the `slw` app, not here:
   and no service account.
 - `QC Check List.offline_uuid` — hidden, unique, NULL for anything created in the browser.
 
-Operators who cannot read `Tounch Size Details.tounch_rate` (permlevel 1, System Manager
-only) receive no rates, and the Rate and Net columns are hidden. ERPNext still prices the
-checklist correctly on submit.
+### Who may see a touch rate
+
+`Tounch Size Details.tounch_rate` sits at permlevel 1, so seeing the rate card is a
+separate grant from seeing the doctype. Stock Manager and Purchase Manager now hold
+permlevel-1 **read**, so QC sees pricing; writing the rate card stays with System Manager.
+
+An operator without that grant is not broken, just unpriced: `rates_visible` comes back
+false, the station drops the Rate and Net columns, and ERPNext still prices the checklist
+correctly on submit. If rates stop appearing, that flag is the first thing to check.
+
+The gate itself lives on the whitelisted endpoints only. `resolve_touch_rates` is
+internal and ungated, because a document has to be worth the right amount no matter who
+saved it.
 
 ## Running it
 
@@ -108,7 +118,7 @@ Two things the packaging step is fussy about, both of which fail the build outri
 ## Tests
 
 ```bash
-npm test               # 386 offline tests
+npm test               # 429 offline tests
 npm run test:e2e       # opt-in, needs a running bench (see below)
 ```
 
@@ -148,6 +158,14 @@ SLWQC_E2E=1 npm run test:e2e
 ```
 
 Override with `SLWQC_E2E_URL`, `SLWQC_E2E_USER`, `SLWQC_E2E_PASSWORD`.
+
+The run submits a real checklist, which closes its GRN, so a second run finds nothing to
+measure. Reset between runs:
+
+```bash
+bench --site slw.com console
+# cancel + delete the QC Check List, then set the Inward Raw Hide status back to Pending
+```
 
 ## Layout
 

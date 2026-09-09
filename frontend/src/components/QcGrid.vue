@@ -19,6 +19,7 @@
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
+import { caretAfterSanitize, sanitizeDecimal } from "../composables/decimalInput";
 import { gradeOptions, matchGrade } from "../composables/grades";
 import { nextPosition, type GridPosition } from "../composables/gridNavigation";
 import { computeWindow, scrollToRow } from "../composables/virtualRows";
@@ -115,6 +116,27 @@ function cellValue(row: DetailRow, field: string): string {
 	if (field === "feetage") return row.feetage ? String(row.feetage) : "";
 	if (field === "grade") return row.grade ?? "";
 	return "";
+}
+
+/**
+ * Filter a feetage box to digits and one decimal point.
+ *
+ * Done on `input` rather than `keydown` so a paste is cleaned too. The rejected character
+ * never reaches the model, and the caret is put back where it was, so correcting the
+ * middle of a number does not fling the cursor to the end.
+ */
+function onFeetageInput(event: Event, row: DetailRow): void {
+	const input = event.target as HTMLInputElement;
+	const raw = input.value;
+	const clean = sanitizeDecimal(raw);
+
+	if (clean !== raw) {
+		const caret = caretAfterSanitize(raw, input.selectionStart ?? raw.length);
+		input.value = clean;
+		input.setSelectionRange(caret, caret);
+	}
+
+	editing.value = { id: row.id, field: "feetage", text: clean };
 }
 
 function beginEdit(row: DetailRow, field: string, initial?: string): void {
@@ -390,12 +412,6 @@ defineExpose({ focusCell });
 				</span>
 
 				<span class="col col--feet" data-cell="feetage">
-					<!--
-						type="text" with inputmode="decimal", never type="number": a number
-						input silently discards intermediate states and reports an empty value
-						for anything it considers invalid, which is exactly how a keystroke
-						goes missing.
-					-->
 					<input
 						:value="cellValue(entry.row, 'feetage')"
 						:disabled="readonly"
@@ -405,7 +421,7 @@ defineExpose({ focusCell });
 						autocomplete="off"
 						:class="{ 'input--bad': problemRows.has(entry.row.idx) }"
 						@focus="onFocus(entry.index, 'feetage', entry.row)"
-						@input="editing = { id: entry.row.id, field: 'feetage', text: ($event.target as HTMLInputElement).value }"
+						@input="onFeetageInput($event, entry.row)"
 						@blur="commit"
 						@keydown="onKeydown($event, entry.index, 'feetage')"
 					/>

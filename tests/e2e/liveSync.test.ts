@@ -76,8 +76,8 @@ suite("live sync against a real bench", () => {
 
 		const indexes = loadMasterIndexes(db);
 		expect(indexes.grades.length).toBeGreaterThan(0);
-		// This operator is Stock Manager, not System Manager, so pricing is withheld.
-		expect(indexes.ratesVisible).toBe(false);
+		// Stock Manager now holds permlevel-1 read on Tounch Rate, so QC sees pricing.
+		expect(indexes.ratesVisible).toBe(true);
 
 		const rangeCount = (sql(db, "SELECT COUNT(*) AS n FROM skin_type_ranges").get() as { n: number }).n;
 		expect(rangeCount).toBeGreaterThan(0);
@@ -110,8 +110,16 @@ suite("live sync against a real bench", () => {
 
 		const measured = loadChecklist(db, list.local_name)!;
 		expect(measured.rows.every((row) => row.size)).toBe(true);
-		// Pricing withheld for this operator, so rates stay 0 locally; the server prices it.
-		expect(measured.rows.every((row) => row.rate === 0)).toBe(true);
+
+		// Rates come from the mirrored rate card, with no call per keystroke. Only skin
+		// types that actually have a Tounch Rate get one: the seed prices Cow and not Goat,
+		// so an unpriced row is correct here and must not be mistaken for a broken lookup.
+		const priced = measured.rows.filter((row) => row.skin_type === "Cow");
+		const unpriced = measured.rows.filter((row) => row.skin_type !== "Cow");
+		expect(priced.length).toBeGreaterThan(0);
+		expect(priced.every((row) => row.rate > 0)).toBe(true);
+		expect(priced.every((row) => row.net_amount > 0)).toBe(true);
+		expect(unpriced.every((row) => row.rate === 0)).toBe(true);
 	}, 30_000);
 
 	it("pushes a confirmed checklist and gets a submitted document back", async () => {
