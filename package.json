@@ -9,6 +9,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "dev": "vite",
     "dist:win": "yarn build && electron-builder --win",
+    "icon": "python3 scripts/make_icon.py",
     "pack": "yarn build && electron-builder --dir",
     "test": "vitest run",
     "test:e2e": "vitest run --config vitest.e2e.config.mts",
@@ -26,7 +27,7 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
     "@vitejs/plugin-vue": "^5.2.1",
-    "electron": "^43.3.0",
+    "electron": "43.6.0",
     "electron-builder": "^26.15.3",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
@@ -44,7 +45,8 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "build/icon.ico"
+      "build/icon.ico",
+      "build/icon.png"
     ],
     "asarUnpack": [
       "**/node_modules/better-sqlite3/**"
@@ -61,6 +63,13 @@
       "allowToChangeInstallationDirectory": true,
       "shortcutName": "SLW QC"
     },
-    "npmRebuild": false
+    "npmRebuild": false,
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "build/icon.png",
+      "category": "Office"
+    }
   }
 }

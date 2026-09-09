@@ -106,6 +106,9 @@ function createWindow(): void {
 		height: 900,
 		show: false,
 		backgroundColor: "#0f172a",
+		// Taskbar and window icon. The .exe icon comes from electron-builder; this is what
+		// the running app shows, including in development.
+		icon: path.join(__dirname, "../build/icon.png"),
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
 			contextIsolation: true,

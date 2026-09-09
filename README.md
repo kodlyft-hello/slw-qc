@@ -82,11 +82,21 @@ npm install
 npm run dev            # Vite + Electron
 npm run build          # typecheck, then bundle renderer + main + preload
 npm run dist:win       # signed NSIS installer (CSC_LINK / CSC_KEY_PASSWORD in CI)
+npm run icon           # regenerate build/icon.{ico,png}
 ```
 
 `better-sqlite3` ships N-API prebuilds, which are ABI-stable across both Node and
 Electron, so there is **no** per-target rebuild step. It does require Node 22 or newer,
 which is why Electron is pinned to a release that bundles Node 22.
+
+Two things the packaging step is fussy about, both of which fail the build outright:
+
+- **Electron must be an exact version**, not a range. electron-builder downloads
+  platform binaries for a specific release and cannot resolve `^43.3.0`. Pinning also
+  keeps the native-module ABI reproducible across machines.
+- **`build/icon.ico` must exist** and be a real multi-size Windows icon. `npm run icon`
+  regenerates it; the current one is a placeholder measuring rule, so replace it with real
+  branding when there is some.
 
 ## Tests
 
