@@ -1,0 +1,94 @@
+:root {
+	--bg: #0f172a;
+	--surface: #1e293b;
+	--surface-2: #172033;
+	--line: #334155;
+	--line-soft: #26334a;
+	--text: #e2e8f0;
+	--muted: #94a3b8;
+	--accent: #38bdf8;
+	--good: #34d399;
+	--bad: #f87171;
+	--bad-bg: #3f1d2b;
+	--done: #17304a;
+	color-scheme: dark;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#app {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+button {
+	padding: 0.4rem 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 5px;
+	background: var(--surface);
+	color: var(--text);
+	font: inherit;
+	cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+	border-color: var(--accent);
+}
+
+button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+button.primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #04212f;
+	font-weight: 600;
+}
+
+input,
+select {
+	padding: 0.4rem 0.55rem;
+	border: 1px solid var(--line);
+	border-radius: 5px;
+	background: var(--surface-2);
+	color: var(--text);
+	font: inherit;
+}
+
+input:focus,
+select:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+	padding: 0.35rem 0.5rem;
+	text-align: left;
+	border-bottom: 1px solid var(--line-soft);
+}
+
+th {
+	color: var(--muted);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}

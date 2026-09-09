@@ -1,0 +1,1947 @@
+{
+ "generated_from": "slw.slw.doctype.qc_check_list.qc_check_list",
+ "rates": {
+  "cases": [
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Medium",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "No Such Size",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Medium",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "No Such Size",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Medium",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "No Such Size",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Medium",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "No Such Size",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Large",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Medium",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Small",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "No Such Size",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "",
+    "skin_type": "Goat"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Medium",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "No Such Size",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 130.0,
+    "grade": "B",
+    "size": "Cow Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 110.0,
+    "grade": "B",
+    "size": "Cow Medium",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 95.0,
+    "grade": "B",
+    "size": "Cow Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "No Such Size",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 165.0,
+    "grade": "A",
+    "size": "Cow Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 140.0,
+    "grade": "A",
+    "size": "Cow Medium",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 120.0,
+    "grade": "A",
+    "size": "Cow Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "No Such Size",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Medium",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "No Such Size",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Large",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Medium",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Small",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "No Such Size",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "",
+    "skin_type": "Cow"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Medium",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "No Such Size",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Medium",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "No Such Size",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Medium",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "No Such Size",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Medium",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "No Such Size",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Large",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Medium",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Small",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "No Such Size",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "",
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Goat Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Medium",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "Cow Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "No Such Size",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "C",
+    "size": "",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Goat Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Medium",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "Cow Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "No Such Size",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "B",
+    "size": "",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Goat Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Medium",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "Cow Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "No Such Size",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "A",
+    "size": "",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Goat Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Medium",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "Cow Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "No Such Size",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "Z",
+    "size": "",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Goat Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Large",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Medium",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "Cow Small",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "No Such Size",
+    "skin_type": ""
+   },
+   {
+    "expected": 0.0,
+    "grade": "",
+    "size": "",
+    "skin_type": ""
+   }
+  ],
+  "rate_docs": [
+   {
+    "creation": "2026-09-09 13:41:48.059742",
+    "entry_date": "2020-01-01",
+    "grade": "A",
+    "name": "00003",
+    "skin_type": "Cow"
+   },
+   {
+    "creation": "2026-09-09 13:33:30.680738",
+    "entry_date": "2026-09-09",
+    "grade": "B",
+    "name": "00002",
+    "skin_type": "Cow"
+   },
+   {
+    "creation": "2026-09-09 13:33:30.625895",
+    "entry_date": "2026-09-09",
+    "grade": "A",
+    "name": "00001",
+    "skin_type": "Cow"
+   }
+  ],
+  "size_details": [
+   {
+    "parent": "00003",
+    "size": "Cow Small",
+    "tounch_rate": 1.0
+   },
+   {
+    "parent": "00003",
+    "size": "Cow Large",
+    "tounch_rate": 3.0
+   },
+   {
+    "parent": "00003",
+    "size": "Cow Medium",
+    "tounch_rate": 2.0
+   },
+   {
+    "parent": "00002",
+    "size": "Cow Small",
+    "tounch_rate": 95.0
+   },
+   {
+    "parent": "00002",
+    "size": "Cow Large",
+    "tounch_rate": 130.0
+   },
+   {
+    "parent": "00002",
+    "size": "Cow Medium",
+    "tounch_rate": 110.0
+   },
+   {
+    "parent": "00001",
+    "size": "Cow Large",
+    "tounch_rate": 165.0
+   },
+   {
+    "parent": "00001",
+    "size": "Cow Medium",
+    "tounch_rate": 140.0
+   },
+   {
+    "parent": "00001",
+    "size": "Cow Small",
+    "tounch_rate": 120.0
+   }
+  ]
+ },
+ "sizing": {
+  "cases": [
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 5.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 5.67,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 6.67,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 8.5,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 10.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 12.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 12.01,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 15.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 15.01,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 22.505,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 30.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 30.01,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 37.34,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 43.34,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 56.005,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 65.005,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 100.0,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": "Cow"
+   },
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 5.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 5.67,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 6.67,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 8.5,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 10.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Small",
+    "feetage": 12.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 12.01,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 15.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 15.01,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 22.505,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 30.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 30.01,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 37.34,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 43.34,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 56.005,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 65.005,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "Goat Large",
+    "feetage": 100.0,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": "Goat"
+   },
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 5.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 5.67,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 6.67,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 8.5,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 10.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 12.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 12.01,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 15.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 15.01,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 22.505,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 30.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 30.01,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 37.34,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 43.34,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 56.005,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 65.005,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 100.0,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": "Unknown"
+   },
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 5.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 5.67,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 6.67,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 8.5,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 10.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 12.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 12.01,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 15.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 15.01,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 22.505,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 30.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 30.01,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 37.34,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 43.34,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 56.005,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 65.005,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 100.0,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": ""
+   },
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 5.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 5.67,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 6.67,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 8.5,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 10.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 12.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 12.01,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 15.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 15.01,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 22.505,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 30.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 30.01,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 37.34,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 43.34,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 56.005,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 65.005,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 100.0,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": null
+   },
+   {
+    "expected": "",
+    "feetage": -3,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "",
+    "feetage": 0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "",
+    "feetage": 0.5,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "",
+    "feetage": 4.99,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 5.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 5.67,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 6.67,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 8.5,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 10.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 12.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 12.01,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Small",
+    "feetage": 15.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 15.01,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 22.505,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Medium",
+    "feetage": 30.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 30.01,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 37.34,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 43.34,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 56.005,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 65.005,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "Cow Large",
+    "feetage": 100.0,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "",
+    "feetage": 100.01,
+    "skin_type": " Cow "
+   },
+   {
+    "expected": "",
+    "feetage": 250,
+    "skin_type": " Cow "
+   }
+  ],
+  "ranges": [
+   {
+    "max_range": 100.0,
+    "min_range": 12.01,
+    "range_name": "Goat Large",
+    "skin_type": "Goat",
+    "status": "Active"
+   },
+   {
+    "max_range": 12.0,
+    "min_range": 5.0,
+    "range_name": "Goat Small",
+    "skin_type": "Goat",
+    "status": "Active"
+   },
+   {
+    "max_range": 100.0,
+    "min_range": 30.01,
+    "range_name": "Cow Large",
+    "skin_type": "Cow",
+    "status": "Active"
+   },
+   {
+    "max_range": 30.0,
+    "min_range": 15.01,
+    "range_name": "Cow Medium",
+    "skin_type": "Cow",
+    "status": "Active"
+   },
+   {
+    "max_range": 15.0,
+    "min_range": 5.0,
+    "range_name": "Cow Small",
+    "skin_type": "Cow",
+    "status": "Active"
+   }
+  ]
+ },
+ "summary": {
+  "blank_status_is_kept": {
+   "expected": [
+    {
+     "feetage": 17.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 2,
+     "size": "Cow Small",
+     "skin_type": "Cow"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 8,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "Cow Small",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 9,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "Cow Small",
+     "skin_type": "Cow",
+     "status": null
+    }
+   ]
+  },
+  "case_sensitive_ordering": {
+   "expected": [
+    {
+     "feetage": 7.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 6.0,
+     "grade": "B",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 5.0,
+     "grade": "a",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 8.0,
+     "grade": "b",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 5,
+     "grade": "a",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 6,
+     "grade": "B",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 7,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 8,
+     "grade": "b",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ]
+  },
+  "empty": {
+   "expected": [],
+   "rows": []
+  },
+  "missing_fields_become_blank": {
+   "expected": [
+    {
+     "feetage": 14.0,
+     "grade": "",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 3,
+     "size": "",
+     "skin_type": ""
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 11,
+     "no_pieces": 2
+    },
+    {
+     "feetage": 3,
+     "grade": null,
+     "no_pieces": 1,
+     "size": null,
+     "skin_type": null
+    }
+   ]
+  },
+  "only_rejected_is_dropped": {
+   "expected": [
+    {
+     "feetage": 15.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 2,
+     "size": "Cow Small",
+     "skin_type": "Cow"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 8,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "Cow Small",
+     "skin_type": "Cow",
+     "status": "Accepted"
+    },
+    {
+     "feetage": 9,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "Cow Small",
+     "skin_type": "Cow",
+     "status": "Rejected"
+    },
+    {
+     "feetage": 7,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "Cow Small",
+     "skin_type": "Cow",
+     "status": ""
+    }
+   ]
+  },
+  "separator_collision": {
+   "expected": [
+    {
+     "feetage": 20.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 5,
+     "size": "Small X",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 10.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 3,
+     "size": "X",
+     "skin_type": "Cow Small"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 10,
+     "grade": "A",
+     "no_pieces": 3,
+     "size": "X",
+     "skin_type": "Cow Small"
+    },
+    {
+     "feetage": 20,
+     "grade": "A",
+     "no_pieces": 5,
+     "size": "Small X",
+     "skin_type": "Cow"
+    }
+   ]
+  },
+  "string_numbers_are_coerced": {
+   "expected": [
+    {
+     "feetage": 87.5,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 5,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": "12.5",
+     "grade": "A",
+     "no_pieces": "3",
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": "7,5",
+     "grade": "A",
+     "no_pieces": "2.9",
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": null,
+     "grade": "A",
+     "no_pieces": null,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ]
+  },
+  "unicode_ordering": {
+   "expected": [
+    {
+     "feetage": 7.0,
+     "grade": "A",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 5.0,
+     "grade": "Z",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 6.0,
+     "grade": "\u00c4",
+     "item_code": "",
+     "item_name": "",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ],
+   "rows": [
+    {
+     "feetage": 5,
+     "grade": "Z",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 6,
+     "grade": "\u00c4",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    },
+    {
+     "feetage": 7,
+     "grade": "A",
+     "no_pieces": 1,
+     "size": "S",
+     "skin_type": "Cow"
+    }
+   ]
+  }
+ }
+}

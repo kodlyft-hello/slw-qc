@@ -1,0 +1,66 @@
+{
+  "name": "slw-qc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SLW QC Check List desktop station",
+  "author": "Kodlyft",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build",
+    "dev": "vite",
+    "dist:win": "yarn build && electron-builder --win",
+    "pack": "yarn build && electron-builder --dir",
+    "test": "vitest run",
+    "test:e2e": "vitest run --config vitest.e2e.config.mts",
+    "test:watch": "vitest",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^13.0.3",
+    "pinia": "^2.2.6",
+    "uuid": "^11.0.5",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vite-plugin-electron": "^0.29.0",
+    "vitest": "^2.1.8",
+    "vue-tsc": "^2.1.10"
+  },
+  "build": {
+    "appId": "com.kodlyft.slwqc",
+    "productName": "SLW QC",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "build/icon.ico"
+    ],
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "SLW QC"
+    },
+    "npmRebuild": false
+  }
+}
